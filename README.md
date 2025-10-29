@@ -1,0 +1,2 @@
+# AMD_Robotics_Hackathon_2025_ProjectTemplate
+AMD_Robotics_Hackathon_2025
