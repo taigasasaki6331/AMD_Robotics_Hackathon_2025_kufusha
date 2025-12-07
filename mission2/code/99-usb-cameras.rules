@@ -1,0 +1,14 @@
+# Top camera (UGREEN Camera)
+SUBSYSTEM=="video4linux", ATTRS{idVendor}=="0c45", ATTRS{idProduct}=="2283", ATTR{index}=="0", SYMLINK+="video_top", GROUP="video", MODE="0660"
+
+# Arm camera (USB2.0_CAM1)
+SUBSYSTEM=="video4linux", ATTRS{idVendor}=="05a3", ATTRS{idProduct}=="9230", ATTR{index}=="0", SYMLINK+="video_arm", GROUP="video", MODE="0660"
+
+# Front camera (UGREEN Camera 2K)
+SUBSYSTEM=="video4linux", ATTRS{idVendor}=="0c45", ATTRS{idProduct}=="636f", ATTR{index}=="0", SYMLINK+="video_front", GROUP="video", MODE="0660"
+
+# Leader (serial: 5AE6058593)
+SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="55d3", ATTRS{serial}=="5AE6058593", SYMLINK+="tty_leader", GROUP="dialout", MODE="0660"
+
+# Follower (serial: 5AE6054125)
+SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="55d3", ATTRS{serial}=="5AE6054125", SYMLINK+="tty_follower", GROUP="dialout", MODE="0660"

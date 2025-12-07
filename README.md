@@ -1,21 +1,121 @@
-# AMD_Robotics_Hackathon_2025_[Project Name]
-<You coulde use the task you did in Mission2 as the project name, since Mission 1 is unified task for every team>
+# AMD_Robotics_Hackathon_2025_CookPastaAndRingABell
 
-**Title:** AMD_RoboticHackathon2025-[Your Work of Mission2]
+**Title:** AMD_RoboticHackathon2025-CookPastaAndRingABell
 
-**Team:** The name of your Team and Members
+**Team:** Kenta Konagaya, Taiga Sasaki
 
-**Summary** <of your task>
-...
+## Summary
 
-**How To**: <reproduce your work in steps>
+Pour a single serving of pasta from a cup into a pasta strainer inside a pot. Return the cup to its designated position. Start the timer (the timer screen turns red and the timer starts). Wait until the timer finishes. When the timer goes off and the screen turns green, transfer the pasta from the strainer to a dish. Ring a bell to signal that the pasta is ready, and the task is complete.
 
-**Delivery URL**
+Note: We originally wanted to automate the timer as well, but ran out of time.
 
-```text
-•	URL of your dataset in Hugging Face
-•	URL of your model in Hugging Face
+## Demo Videos
+
+- [AMD Robotics Hackathon 2025 11 kufusha cook pasta n ring bell 1](https://youtu.be/OSZ5TECSqkU)
+- [AMD Robotics Hackathon 2025 11 kufusha cook pasta n ring bell 2](https://youtu.be/MVNBf38YdK4)
+- [AMD Robotics Hackathon 2025 11 kufusha cook pasta n ring bell 3](https://youtu.be/ZfiCscT35pU)
+
+## How To Reproduce
+
+### Environment Setup
+We recommend replicating the environment as closely as possible since no additional equipment was used. Pay attention to details such as cup thickness, cup color, and pot angle.
+
+#### USB Device Rules (udev)
+To ensure consistent device naming for cameras and robot arms, copy the udev rules file and reload:
+```bash
+sudo cp mission2/code/99-usb-cameras.rules /etc/udev/rules.d/
+sudo udevadm control --reload-rules
+sudo udevadm trigger
 ```
+
+This creates the following symbolic links:
+| Device | Symlink | Description |
+|--------|---------|-------------|
+| UGREEN Camera | `/dev/video_top` | Overhead camera |
+| UGREEN Camera 2K | `/dev/video_front` | Front/side camera |
+| USB2.0_CAM1 | `/dev/video_arm` | Wrist camera |
+| Serial 5AE6058593 | `/dev/tty_leader` | Leader arm |
+| Serial 5AE6054125 | `/dev/tty_follower` | Follower arm |
+
+#### Kitchen Timer (Separate PC)
+The `kitchen_timer.py` script should be run on a **separate PC with a display** that the robot can see. This timer displays:
+- **White screen**: Waiting to start (press any key to begin)
+- **Red screen**: Countdown in progress (3 minutes)
+- **Green screen**: Timer finished (robot should transfer pasta)
+
+```bash
+# Run on the timer display PC (requires pygame)
+pip install pygame
+python mission2/code/kitchen_timer.py
+```
+
+The robot uses vision to detect the screen color change from red to green.
+
+### Camera Placement
+Camera positioning is critical. Consider the following:
+1. **Overhead camera**: Can you see the entire workspace?
+2. **Side camera**: Can you clearly see the bell handle and the cup being grasped?
+3. **Wrist camera**: Is the grasping moment clearly visible?
+
+Carefully determine camera positions to ensure all elements are visible. (We spent about 1 hour just deciding on camera placement.)
+
+#### Camera View Check
+We used the following command to check all camera views simultaneously:
+```bash
+./fix_camera_settings.sh && gst-launch-1.0 \
+    compositor name=comp sink_0::xpos=0 sink_1::xpos=640 sink_2::xpos=1280 ! videoconvert ! autovideosink \
+    v4l2src device=/dev/video_top ! 'image/jpeg, width=640, height=480, framerate=30/1' ! jpegdec ! videoconvert ! comp.sink_0 \
+    v4l2src device=/dev/video_front ! 'image/jpeg, width=640, height=480, framerate=30/1' ! jpegdec ! videoconvert ! comp.sink_1 \
+    v4l2src device=/dev/video_arm ! 'image/jpeg, width=640, height=480, framerate=30/1' ! jpegdec ! videoconvert ! comp.sink_2
+```
+
+**Camera view screenshot:**
+
+![Camera View](images/camera_view.png)
+
+**Camera setup photos:**
+
+| | | |
+|:---:|:---:|:---:|
+| ![Setup 1](images/setup_1.jpg) | ![Setup 2](images/setup_2.jpg) | ![Setup 3](images/setup_3.jpg) |
+| ![Setup 4](images/setup_4.jpg) | ![Setup 5](images/setup_5.jpg) | ![Setup 6](images/setup_6.jpg) |
+| ![Setup 7](images/setup_7.jpg) | | |
+
+### Data Collection
+We focused on the following points:
+1. All movements should be smooth, with sufficient margin for arm range of motion and object manipulation
+2. When grasping with the wrist camera, ensure the target object is always visible in the camera
+3. We shortened the timer to less than 3 minutes to ensure proper waiting for the color change
+
+### Training
+Training was performed with the following configuration:
+```bash
+lerobot-train \
+  --dataset.repo_id=kfstiger/cook_pasta_n_ring_a_bell \
+  --batch_size=64 \
+  --steps=40000 \
+  --save_freq=2000 \
+  --output_dir=outputs/train/act_so101_pasta_bell_40ksteps \
+  --job_name=act_so101_pasta_bell_40ksteps \
+  --policy.device=cuda \
+  --policy.type=act \
+  --policy.push_to_hub=false \
+  --wandb.enable=true
+```
+
+### Inference
+No special configuration required.
+
+## Delivery URL
+
+- **Dataset:** https://huggingface.co/datasets/kfstiger/cook_pasta_n_ring_a_bell
+- **Model:** https://huggingface.co/kfstiger/cook_pasta_n_ring_a_bell/tree/main
+
+## Related Blog Posts
+
+- [Dual-arm work with Otter Arm](https://www.kufusha.com/works/robotics/w005327/)
+- [SmolVLA](https://www.kufusha.com/works/robotics/w006559/)
 
 Directory Tree of this repo,
 

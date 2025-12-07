@@ -1,0 +1,14 @@
+python3 src/lerobot/scripts/lerobot_record.py \
+	--robot.type=so101_follower \
+	--robot.port=/dev/tty_follower \
+	--robot.cameras="{top: {type: opencv, index_or_path: /dev/video_top, width: 640, height: 480, fps: 30}, front: {type: opencv, index_or_path: /dev/video_front, width: 640, height: 480, fps: 30}, arm: {type: opencv, index_or_path: /dev/video_arm, width: 640, height: 480, fps: 30}}" \
+	--robot.id=follower_pasta \
+	--dataset.repo_id=kfstiger/cook_pasta_n_ring_a_bell \
+	--dataset.num_episodes=1 \
+	--dataset.single_task="Cook pasta and ring a bell" \
+	--display_data=true \
+	--teleop.type=so101_leader \
+	--teleop.port=/dev/tty_leader \
+	--teleop.id=teleop_pasta \
+	--dataset.episode_time_s=300 \
+	--resume=true
