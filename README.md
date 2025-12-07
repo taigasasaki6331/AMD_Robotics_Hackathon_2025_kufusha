@@ -72,15 +72,15 @@ We used the following command to check all camera views simultaneously:
 
 **Camera view screenshot:**
 
-![Camera View](images/camera_view.png)
+![Camera View](https://github.com/user-attachments/assets/21928376-049c-4234-8425-3e8e1afef314)
 
 **Camera setup photos:**
 
 | | | |
 |:---:|:---:|:---:|
-| ![Setup 1](images/setup_1.jpg) | ![Setup 2](images/setup_2.jpg) | ![Setup 3](images/setup_3.jpg) |
-| ![Setup 4](images/setup_4.jpg) | ![Setup 5](images/setup_5.jpg) | ![Setup 6](images/setup_6.jpg) |
-| ![Setup 7](images/setup_7.jpg) | | |
+| ![Setup 1](https://github.com/user-attachments/assets/de33cebc-9eb9-41cb-a317-28529349358a) | ![Setup 2](https://github.com/user-attachments/assets/f13f5c5f-f292-4cf8-ad66-5a0cee0a5d58) | ![Setup 3](https://github.com/user-attachments/assets/9b1a132d-56ee-43f2-ada9-f8e164204620) |
+| ![Setup 4](https://github.com/user-attachments/assets/efb0178f-cea7-4969-b2bf-2ec0df071bb2) | ![Setup 5](https://github.com/user-attachments/assets/876c232a-669c-4205-b556-cee62a77db81) | ![Setup 6](https://github.com/user-attachments/assets/4dcb9e62-8385-40d5-9c89-ee04c2f56fe2) |
+| ![Setup 7](https://github.com/user-attachments/assets/0663f50e-ec2a-4c06-b4e4-f1720a3a6029) | | |
 
 ### Data Collection
 We focused on the following points:
