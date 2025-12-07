@@ -1,27 +1,57 @@
 # AMD_Robotics_Hackathon_2025_CookPastaAndRingABell
 
-**Title:** AMD_RoboticHackathon2025-CookPastaAndRingABell
+## Team Information
 
-**Team:** Kenta Konagaya, Taiga Sasaki
+**Team:** *11, Kenta Konagaya(kufusha.Inc), Taiga Sasaki(kufusha.Inc)*
 
-## Summary
+**Summary:** *We operate a robotics business focused on prototype development and contract development of autonomous mobile robots, as well as system integration for collaborative robots.　(https://www.kufusha.com/)*
+
+## Judging Criteria
+
+### 1. Mission 2 Description (10 points)
 
 Pour a single serving of pasta from a cup into a pasta strainer inside a pot. Return the cup to its designated position. Start the timer (the timer screen turns red and the timer starts). Wait until the timer finishes. When the timer goes off and the screen turns green, transfer the pasta from the strainer to a dish. Ring a bell to signal that the pasta is ready, and the task is complete.
 
 Note: We originally wanted to automate the timer as well, but ran out of time.
 
-## Demo Videos
+### 2. Creativity (30 points)
+
+### Camera Placement
+Camera positioning is critical. Consider the following:
+1. **Overhead camera**: Can you see the entire workspace?
+2. **Side camera**: Can you clearly see the bell handle and the cup being grasped?
+3. **Wrist camera**: Is the grasping moment clearly visible?
+
+Carefully determine camera positions to ensure all elements are visible. (We spent about 1 hour just deciding on camera placement.)
+
+#### Camera View Check
+We used the following command to check all camera views simultaneously:
+```bash
+./fix_camera_settings.sh && gst-launch-1.0 \
+    compositor name=comp sink_0::xpos=0 sink_1::xpos=640 sink_2::xpos=1280 ! videoconvert ! autovideosink \
+    v4l2src device=/dev/video_top ! 'image/jpeg, width=640, height=480, framerate=30/1' ! jpegdec ! videoconvert ! comp.sink_0 \
+    v4l2src device=/dev/video_front ! 'image/jpeg, width=640, height=480, framerate=30/1' ! jpegdec ! videoconvert ! comp.sink_1 \
+    v4l2src device=/dev/video_arm ! 'image/jpeg, width=640, height=480, framerate=30/1' ! jpegdec ! videoconvert ! comp.sink_2
+```
+
+**Camera view screenshot:**
+
+![Camera View](https://github.com/user-attachments/assets/21928376-049c-4234-8425-3e8e1afef314)
+
+### 3. Technical implementations (20 points)
+
+#### Demo Videos
 
 - [AMD Robotics Hackathon 2025 11 kufusha cook pasta n ring bell 1](https://youtu.be/OSZ5TECSqkU)
 - [AMD Robotics Hackathon 2025 11 kufusha cook pasta n ring bell 2](https://youtu.be/MVNBf38YdK4)
 - [AMD Robotics Hackathon 2025 11 kufusha cook pasta n ring bell 3](https://youtu.be/ZfiCscT35pU)
 
-## How To Reproduce
+#### How To Reproduce
 
-### Environment Setup
+##### Environment Setup
 We recommend replicating the environment as closely as possible since no additional equipment was used. Pay attention to details such as cup thickness, cup color, and pot angle.
 
-#### USB Device Rules (udev)
+###### USB Device Rules (udev)
 To ensure consistent device naming for cameras and robot arms, copy the udev rules file and reload:
 ```bash
 sudo cp mission2/code/99-usb-cameras.rules /etc/udev/rules.d/
@@ -52,27 +82,6 @@ python mission2/code/kitchen_timer.py
 
 The robot uses vision to detect the screen color change from red to green.
 
-### Camera Placement
-Camera positioning is critical. Consider the following:
-1. **Overhead camera**: Can you see the entire workspace?
-2. **Side camera**: Can you clearly see the bell handle and the cup being grasped?
-3. **Wrist camera**: Is the grasping moment clearly visible?
-
-Carefully determine camera positions to ensure all elements are visible. (We spent about 1 hour just deciding on camera placement.)
-
-#### Camera View Check
-We used the following command to check all camera views simultaneously:
-```bash
-./fix_camera_settings.sh && gst-launch-1.0 \
-    compositor name=comp sink_0::xpos=0 sink_1::xpos=640 sink_2::xpos=1280 ! videoconvert ! autovideosink \
-    v4l2src device=/dev/video_top ! 'image/jpeg, width=640, height=480, framerate=30/1' ! jpegdec ! videoconvert ! comp.sink_0 \
-    v4l2src device=/dev/video_front ! 'image/jpeg, width=640, height=480, framerate=30/1' ! jpegdec ! videoconvert ! comp.sink_1 \
-    v4l2src device=/dev/video_arm ! 'image/jpeg, width=640, height=480, framerate=30/1' ! jpegdec ! videoconvert ! comp.sink_2
-```
-
-**Camera view screenshot:**
-
-![Camera View](https://github.com/user-attachments/assets/21928376-049c-4234-8425-3e8e1afef314)
 
 **Camera setup photos:**
 
@@ -107,6 +116,12 @@ lerobot-train \
 ### Inference
 No special configuration required.
 
+### 4. Ease of use (10 points)
+
+- Since we used commercially available ingredients and cooking utensils, I believe that if we can actually boil the pasta, we will be able to achieve pasta serving.
+- Although pasta was used in this project, it is thought that this approach can be applied to other foods that require similar cooking methods (such as rice and ramen).
+- For this implementation, we used the lerobot scripts as is.
+
 ## Delivery URL
 
 - **Dataset:** https://huggingface.co/datasets/kfstiger/cook_pasta_n_ring_a_bell
@@ -124,12 +139,7 @@ Directory Tree of this repo,
 ```terminal
 AMD_Robotics_Hackathon_2025_ProjectTemplate-main/
 ├── README.md
-├── mission1
-│   ├── code
-│   │   └── <code and script>
-│   └── wandb
-│       └── <latest run directory copied from wandb of your training job>
-└── mission2
+└── mission
     ├── code
     │   └── <code and script>
     └── wandb
