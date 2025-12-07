@@ -1,7 +1,6 @@
 **### Make a fork or copy of this repo and fill in your team submission details! ###**
 
 # AMD_Robotics_Hackathon_2025_[Project Name]
-*Submission is for the task you did in Mission 2, since Mission 1 was a "hello world" task for every team.*
 
 ## Team Information
 
@@ -9,25 +8,25 @@
 
 **Summary:** *A brief description of your work*
 
-*<Images or video demonstrating your project>*
+*< Images or video demonstrating your project >*
 
-## Judging Criteria
+## Project Details
 
-### 1. Mission 2 Description (10 points)
+### 1. Mission Description
 - *Real world application of your mission*
 
-### 2. Creativity (30 points)
+### 2. Creativity
 - *What is novel or unique in your approach?*
 - *Innovation in design, methodology, or application*
 
-### 3. Technical implementations (20 points)
+### 3. Technical implementations
 - *Teleoperation / Dataset capture*
     - *<Image/video of teleoperation or dataset capture>*
 - *Training*
 - *Inference*
     - *<Image/video of inference eval>*
 
-### 4. Ease of use (10 points)
+### 4. Ease of use
 - *How generalizable is your implementation across tasks or environments?*
 - *Flexibility and adaptability of the solution*
 - *Types of commands or interfaces needed to control the robot*
